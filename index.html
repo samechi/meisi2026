@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>如月 瑞希 | Digital Business Card</title>
+<meta name="theme-color" content="#12213A">
+
+<!--
+  ============================================================
+  編集ガイド（ここだけ読めばOK）
+  ============================================================
+  1. 下の <script> 内、"CONFIG" というオブジェクトの値を
+      すべてあなたの情報に書き換えてください。
+  2. SNSは配列なので、行を増減すれば表示個数が変わります。
+      アイコンの文字（label）とURL（url）を設定してください。
+  3. 顔写真・ロゴを入れたい場合は CONFIG.photoUrl に
+      画像URL（同じリポジトリ内の画像パスでOK）を入れてください。
+      空文字のままならイニシャルの記章のみ表示されます。
+  ============================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:      #12213A;   /* 主色：紺 */
+    --ink-soft: #2A3B5C;
+    --paper:    #F7F5F1;   /* 背景：暖かいオフホワイト */
+    --surface:  #FFFFFF;   /* カード面 */
+    --slate:    #5C6470;   /* 補助テキスト */
+    --brass:    #A9822C;   /* アクセント：真鍮色 */
+    --brass-soft: #C7A75E;
+    --line:     #E4DFD5;   /* 罫線 */
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  html,body{
+    margin:0; padding:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding: calc(28px + var(--safe-top)) 16px calc(28px + var(--safe-bottom));
+  }
+
+  .card{
+    width:100%;
+    max-width:420px;
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:0 1px 2px rgba(18,33,58,0.04), 0 18px 40px -14px rgba(18,33,58,0.28);
+    opacity:0;
+    transform:translateY(14px);
+    animation:riseIn .7s cubic-bezier(.2,.7,.2,1) .05s forwards;
+  }
+
+  @keyframes riseIn{ to{ opacity:1; transform:translateY(0); } }
+
+  /* ---------- header band ---------- */
+  .header{
+    position:relative;
+    height:132px;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.035) 0 2px, transparent 2px 14px),
+      radial-gradient(120% 140% at 15% -10%, #1C2E4F 0%, #101B32 60%, #0C1526 100%);
+  }
+  .header::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--brass-soft), transparent);
+    opacity:.6;
+  }
+
+  /* seal / monogram badge — signature element */
+  .seal-wrap{
+    position:absolute;
+    left:24px;
+    bottom:-38px;
+    width:76px; height:76px;
+  }
+  .seal{
+    width:100%; height:100%;
+    border-radius:50%;
+    background:var(--surface);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 18px -6px rgba(18,33,58,0.35);
+  }
+  .seal-inner{
+    width:62px; height:62px;
+    border-radius:50%;
+    border:1.5px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:1px;
+    color:var(--ink);
+    overflow:hidden;
+  }
+  .seal-inner img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  /* ---------- identity block ---------- */
+  .identity{
+    padding:52px 24px 18px;
+  }
+  .name-jp{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:26px;
+    line-height:1.25;
+    margin:0;
+    color:var(--ink);
+  }
+  .name-en{
+    margin:4px 0 0;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:2.2px;
+    color:var(--slate);
+    text-transform:uppercase;
+  }
+  .role{
+    margin:14px 0 0;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  .role .company{
+    font-weight:600;
+    color:var(--ink);
+  }
+
+  .rule{
+    margin:18px 24px 0;
+    height:1px;
+    background:linear-gradient(90deg, var(--brass) 0%, var(--line) 40%);
+  }
+
+  /* ---------- action bar (Apple Wallet 風) ---------- */
+  .actions{
+    display:flex;
+    gap:10px;
+    padding:18px 24px 4px;
+  }
+  .action-btn{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    padding:12px 6px 10px;
+    border-radius:var(--radius-md);
+    background:var(--ink);
+    color:#fff;
+    text-decoration:none;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:.2px;
+    border:1px solid var(--ink);
+    transition:transform .12s ease, opacity .12s ease;
+  }
+  .action-btn.outline{
+    background:transparent;
+    color:var(--ink);
+  }
+  .action-btn:active{ transform:scale(.96); opacity:.85; }
+  .action-btn svg{ width:19px; height:19px; }
+
+  /* ---------- connect / sns ---------- */
+  .section-label{
+    margin:26px 24px 6px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:2px;
+    color:var(--brass);
+    text-transform:uppercase;
+  }
+  .sns-list{ padding:0 12px 6px; }
+  .sns-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 12px;
+    margin:0 12px;
+    text-decoration:none;
+    color:var(--ink);
+    border-bottom:1px solid var(--line);
+  }
+  .sns-row:last-child{ border-bottom:none; }
+  .sns-chip{
+    width:32px; height:32px;
+    flex:0 0 auto;
+    border-radius:9px;
+    background:var(--ink);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.2px;
+  }
+  .sns-name{
+    flex:1;
+    font-size:14px;
+    font-weight:500;
+  }
+  .sns-row svg.chev{
+    width:16px; height:16px;
+    color:var(--slate);
+    flex:0 0 auto;
+  }
+  .sns-row:active{ background:#FAFAF8; }
+
+  /* ---------- footer ---------- */
+  .footer{
+    padding:22px 24px calc(20px);
+    text-align:center;
+  }
+  .footer .rule-thin{
+    height:1px;
+    background:var(--line);
+    margin:0 0 14px;
+  }
+  .footer small{
+    font-size:10.5px;
+    letter-spacing:1.6px;
+    color:#9AA1AC;
+    text-transform:uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .card{ animation:none; opacity:1; transform:none; }
+    .action-btn, .sns-row{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="header">
+    <div class="seal-wrap">
+      <div class="seal"><div class="seal-inner" id="sealInner">YT</div></div>
+    </div>
+  </div>
+
+  <div class="identity">
+    <p class="name-jp" id="nameJp">如月 瑞希</p>
+    <p class="name-en" id="nameEn">MIYUKI KISARAGI</p>
+    <p class="role">
+      <span id="jobTitle">シニアマーケティングマネージャー</span> ／
+      <span class="company" id="company">株式会社サンプル</span>
+    </p>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="actions" id="actions"></div>
+
+  <div class="section-label">Connect</div>
+  <div class="sns-list" id="snsList"></div>
+
+  <div class="footer">
+    <div class="rule-thin"></div>
+    <small>Digital Business Card</small>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ▼▼▼ ここを自分の情報に書き換えてください ▼▼▼
+   ============================================================ */
+const CONFIG = {
+  nameJp:   "如月 瑞希",
+  nameEn:   "MIZUKI KISARAGI",
+  initials: "MK",              // 記章に表示するイニシャル
+  jobTitle: "シニアマーケティングマネージャー",
+  company:  "株式会社サンプル",
+  photoUrl: "img/popon.jpeg",                 // 例: "photo.jpg"（記章に表示する画像。空欄ならイニシャルを表示）
+
+  phone:   "090-1234-5678",
+  email:   "mizuki.kisaragi@example.com",
+  website: "https://example.com",
+
+  sns: [
+    { label: "X",  chip: "X",  url: "https://x.com/example" },
+    { label: "Instagram", chip: "IG", url: "https://instagram.com/example" },
+    { label: "LinkedIn",  chip: "in", url: "https://linkedin.com/in/example" }
+  ]
+};
+/* ============================================================
+   ▲▲▲ 編集はここまで。以下は表示ロジックなので触らなくてOK ▲▲▲
+   ============================================================ */
+
+const icons = {
+  phone: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+  mail: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><path d="M2 6h20v12H2z"/></svg>`,
+  globe: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>`,
+  chev: `<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`
+};
+
+document.getElementById('nameJp').textContent = CONFIG.nameJp;
+document.getElementById('nameEn').textContent = CONFIG.nameEn;
+document.getElementById('jobTitle').textContent = CONFIG.jobTitle;
+document.getElementById('company').textContent = CONFIG.company;
+const sealInner = document.getElementById('sealInner');
+if(CONFIG.photoUrl){
+  sealInner.innerHTML = `<img src="${CONFIG.photoUrl}" alt="${CONFIG.nameJp}">`;
+} else {
+  sealInner.textContent = CONFIG.initials;
+}
+
+document.getElementById('actions').innerHTML = `
+  <a class="action-btn" href="tel:${CONFIG.phone.replace(/[^0-9+]/g,'')}">${icons.phone}電話</a>
+  <a class="action-btn" href="mailto:${CONFIG.email}">${icons.mail}メール</a>
+  <a class="action-btn outline" href="${CONFIG.website}" target="_blank" rel="noopener">${icons.globe}Web</a>
+`;
+
+document.getElementById('snsList').innerHTML = CONFIG.sns.map(s => `
+  <a class="sns-row" href="${s.url}" target="_blank" rel="noopener">
+    <div class="sns-chip">${s.chip}</div>
+    <div class="sns-name">${s.label}</div>
+    ${icons.chev}
+  </a>
+`).join('');
+</script>
+</body>
+</html>
