@@ -3,27 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>如月 瑞希 | Digital Business Card</title>
+<title>如月 瑞希 | Portfolio & Card</title>
 <meta name="theme-color" content="#12213A">
-
-<!--
-  ============================================================
-  編集ガイド（ここだけ読めばOK）
-  ============================================================
-  1. 下の <script> 内、"CONFIG" というオブジェクトの値を
-      すべてあなたの情報に書き換えてください。
-  2. SNSは配列なので、行を増減すれば表示個数が変わります。
-      アイコンの文字（label）とURL（url）を設定してください。
-  3. 顔写真・ロゴを入れたい場合は CONFIG.photoUrl に
-      画像URL（同じリポジトリ内の画像パスでOK）を入れてください。
-      空文字のままならイニシャルの記章のみ表示されます。
-  ============================================================
--->
-
+ 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+ 
 <style>
   :root{
     --ink:      #12213A;   /* 主色：紺 */
@@ -36,12 +22,13 @@
     --line:     #E4DFD5;   /* 罫線 */
     --radius-lg: 22px;
     --radius-md: 14px;
+    --radius-sm: 8px;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
-
+ 
   *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
+ 
   html,body{
     margin:0; padding:0;
     background:var(--paper);
@@ -49,18 +36,18 @@
     font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
     -webkit-font-smoothing:antialiased;
   }
-
+ 
   body{
     min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:flex-start;
-    padding: calc(28px + var(--safe-top)) 16px calc(28px + var(--safe-bottom));
+    padding: calc(28px + var(--safe-top)) 16px calc(40px + var(--safe-bottom));
   }
-
+ 
   .card{
     width:100%;
-    max-width:420px;
+    max-width:440px;
     background:var(--surface);
     border-radius:var(--radius-lg);
     overflow:hidden;
@@ -69,9 +56,9 @@
     transform:translateY(14px);
     animation:riseIn .7s cubic-bezier(.2,.7,.2,1) .05s forwards;
   }
-
+ 
   @keyframes riseIn{ to{ opacity:1; transform:translateY(0); } }
-
+ 
   /* ---------- header band ---------- */
   .header{
     position:relative;
@@ -87,8 +74,8 @@
     background:linear-gradient(90deg, transparent, var(--brass-soft), transparent);
     opacity:.6;
   }
-
-  /* seal / monogram badge — signature element */
+ 
+  /* seal / monogram badge */
   .seal-wrap{
     position:absolute;
     left:24px;
@@ -114,16 +101,17 @@
     letter-spacing:1px;
     color:var(--ink);
     overflow:hidden;
+    background: #fcfbf9;
   }
   .seal-inner img{
     width:100%; height:100%;
     object-fit:cover;
     display:block;
   }
-
+ 
   /* ---------- identity block ---------- */
   .identity{
-    padding:52px 24px 18px;
+    padding:52px 24px 14px;
   }
   .name-jp{
     font-family:'Playfair Display', serif;
@@ -151,14 +139,20 @@
     font-weight:600;
     color:var(--ink);
   }
-
+  .bio{
+    margin:12px 0 0;
+    font-size:13px;
+    color:var(--slate);
+    line-height:1.5;
+  }
+ 
   .rule{
-    margin:18px 24px 0;
+    margin:12px 24px 0;
     height:1px;
     background:linear-gradient(90deg, var(--brass) 0%, var(--line) 40%);
   }
-
-  /* ---------- action bar (Apple Wallet 風) ---------- */
+ 
+  /* ---------- action bar ---------- */
   .actions{
     display:flex;
     gap:10px;
@@ -187,16 +181,208 @@
   }
   .action-btn:active{ transform:scale(.96); opacity:.85; }
   .action-btn svg{ width:19px; height:19px; }
-
-  /* ---------- connect / sns ---------- */
+ 
+  /* ---------- section common ---------- */
   .section-label{
-    margin:26px 24px 6px;
+    margin:28px 24px 12px;
     font-size:11px;
     font-weight:700;
     letter-spacing:2px;
     color:var(--brass);
     text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:8px;
   }
+  .section-label::after{
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line), transparent);
+  }
+
+  /* ---------- skills ---------- */
+  .skills-container{
+    padding:0 24px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .skill-badge{
+    font-size:12px;
+    font-weight:500;
+    padding:6px 12px;
+    background: #F0EDE6;
+    color: var(--ink-soft);
+    border-radius:var(--radius-sm);
+  }
+
+  /* ---------- works / portfolio ---------- */
+  .works-list{
+    padding:0 24px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .work-item{
+    display:flex;
+    background: #FAF9F6;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .work-item:active{
+    transform: scale(0.98);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .work-thumb{
+    width: 100px;
+    height: 100px;
+    flex: 0 0 auto;
+    background: var(--ink-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .work-thumb img{
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .work-thumb-fallback{
+    width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+    font-family: 'Playfair Display', serif;
+    color: var(--brass-soft);
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .work-info{
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+  }
+  .work-title{
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .work-desc{
+    margin: 0;
+    font-size: 12px;
+    color: var(--slate);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ---------- Modal Window (New) ---------- */
+  .modal-overlay{
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(18, 33, 58, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.is-active{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-window{
+    width: 100%;
+    max-width: 400px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 24px 50px -12px rgba(18,33,58,0.4);
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(.2,.7,.2,1);
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-overlay.is-active .modal-window{
+    transform: translateY(0);
+  }
+  .modal-header{
+    position: relative;
+    padding: 24px;
+    background: radial-gradient(100% 100% at 15% 0%, #1C2E4F 0%, #101B32 100%);
+    color: #fff;
+  }
+  .modal-header .modal-title{
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    padding-right: 28px;
+  }
+  .modal-close{
+    position: absolute;
+    top: 20px; right: 20px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .modal-close:active{ background: rgba(255,255,255,0.2); }
+  .modal-close svg{ width: 16px; height: 16px; }
+  
+  .modal-body{
+    padding: 24px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .modal-body img{
+    width: 100%;
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    border: 1px solid var(--line);
+  }
+  .modal-footer{
+    padding: 16px 24px;
+    border-top: 1px solid var(--line);
+    background: #FAF9F6;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .modal-link-btn{
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--brass);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  body.modal-open {
+    overflow: hidden;
+  }
+ 
+  /* ---------- connect / sns ---------- */
   .sns-list{ padding:0 12px 6px; }
   .sns-row{
     display:flex;
@@ -231,10 +417,10 @@
     flex:0 0 auto;
   }
   .sns-row:active{ background:#FAFAF8; }
-
+ 
   /* ---------- footer ---------- */
   .footer{
-    padding:22px 24px calc(20px);
+    padding:32px 24px calc(20px);
     text-align:center;
   }
   .footer .rule-thin{
@@ -251,7 +437,7 @@
 
   @media (prefers-reduced-motion: reduce){
     .card{ animation:none; opacity:1; transform:none; }
-    .action-btn, .sns-row{ transition:none; }
+    .action-btn, .work-item, .sns-row, .modal-overlay, .modal-window{ transition:none; }
   }
 </style>
 </head>
@@ -260,69 +446,120 @@
 <div class="card" id="card">
   <div class="header">
     <div class="seal-wrap">
-      <div class="seal"><div class="seal-inner" id="sealInner">YT</div></div>
+      <div class="seal"><div class="seal-inner" id="sealInner">KM</div></div>
     </div>
   </div>
-
+ 
   <div class="identity">
-    <p class="name-jp" id="nameJp">如月 瑞希</p>
-    <p class="name-en" id="nameEn">MIYUKI KISARAGI</p>
+    <p class="name-jp" id="nameJp">-</p>
+    <p class="name-en" id="nameEn">-</p>
     <p class="role">
-      <span id="jobTitle">シニアマーケティングマネージャー</span> ／
-      <span class="company" id="company">株式会社サンプル</span>
+      <span id="jobTitle">-</span> ／
+      <span class="company" id="company">-</span>
     </p>
+    <p class="bio" id="bio">-</p>
   </div>
 
   <div class="rule"></div>
 
   <div class="actions" id="actions"></div>
 
+  <div class="section-label">Expertise</div>
+  <div class="skills-container" id="skillsContainer"></div>
+
+  <div class="section-label">Selected Works</div>
+  <div class="works-list" id="worksList"></div>
+
   <div class="section-label">Connect</div>
   <div class="sns-list" id="snsList"></div>
 
   <div class="footer">
     <div class="rule-thin"></div>
-    <small>Digital Business Card</small>
+    <small>Digital Card & Portfolio</small>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modalTitle">Project Title</h3>
+      <button class="modal-close" id="modalClose" aria-label="閉じる">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      </div>
+    <div class="modal-footer" id="modalFooter">
+      </div>
   </div>
 </div>
 
 <script>
 /* ============================================================
-   ▼▼▼ ここを自分の情報に書き換えてください ▼▼▼
+    ▼▼▼ ここをあなたの情報に書き換えてください ▼▼▼
    ============================================================ */
 const CONFIG = {
-  nameJp:   "如月 瑞希",
-  nameEn:   "MIZUKI KISARAGI",
-  initials: "MK",              // 記章に表示するイニシャル
-  jobTitle: "シニアマーケティングマネージャー",
-  company:  "株式会社サンプル",
-  photoUrl: "img/popon.jpeg",                 // 例: "photo.jpg"（記章に表示する画像。空欄ならイニシャルを表示）
-
-  phone:   "090-1234-5678",
-  email:   "mizuki.kisaragi@example.com",
+  nameJp:   "さめち だよ",
+  nameEn:   "DAYO SAMECHI",
+  initials: "KM",
+  jobTitle: "最高執行責任者 / システムエンジニア",
+  company:  "",
+  bio:      "毎日読書をしているインドア専門学生です。",
+  photoUrl: "img/popon.jpeg",
   website: "https://example.com",
 
+  skills: [
+  "COO",
+    "System Engineering", 
+    "UI/UX Design", 
+    "Creative Direction", 
+    "Digital Contents Production", 
+    "HTML5/CSS3", 
+    "Homepage Design"
+  ],
+
+  // ポートフォリオ（detail にモーダル用の詳細解説を記述できます）
+  works: [
+    {
+      title: "Corporate Identity Redesign",
+      desc: "最高執行評議部のブランドアイデンティティ刷新プロジェクト。",
+      detail: "既存のイメージを現代のデジタル環境に適応させるため、1年をかけてリブランディングを主導。<br><br>伝統的な重厚感と、先進的な透明性を融合させたコア・ビジュアルを定義し、各種プロダクトから内製ツールに至るまで、包括的なデザインシステムを構築しました。これにより、一貫したブランド体験の提供と、開発速度の30%向上を達成しています。",
+      url: "https://example.com/project1", // 関連リンク（不要なら空文字 "" で非表示）
+      img: "" 
+    },
+    {
+      title: "Digital Business Card Architecture",
+      desc: "モバイルファーストで洗練された、レスポンシブな次世代デジタル名刺のUI設計。",
+      detail: "個人があらゆるデバイスで「一瞬で自分をプレゼンテーションできる」ミニマルなデジタル名刺の骨組みを設計。<br><br>Apple Walletのミニマリズムから着想を得た、無駄を削ぎ落としたタイポグラフィと上品な微細グラデーションを実装。さらにポートフォリオの格納機能を追加し、単なる連絡先交換ツールにとどまらない、個人の資産価値を高める設計を追求しました。",
+      url: "",
+      img: ""
+    }
+  ],
+
   sns: [
-    { label: "X",  chip: "X",  url: "https://x.com/example" },
-    { label: "Instagram", chip: "IG", url: "https://instagram.com/example" },
-    { label: "LinkedIn",  chip: "in", url: "https://linkedin.com/in/example" }
+    { label: "X (Twitter)", chip: "X",  url: "https://x.com/example" },
+    { label: "Instagram",   chip: "IG", url: "https://instagram.com/example" },
+    { label: "LinkedIn",    chip: "in", url: "https://linkedin.com/in/example" }
   ]
 };
 /* ============================================================
-   ▲▲▲ 編集はここまで。以下は表示ロジックなので触らなくてOK ▲▲▲
+    ▲▲▲ 編集はここまで ▲▲▲
    ============================================================ */
 
 const icons = {
-  phone: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
   mail: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><path d="M2 6h20v12H2z"/></svg>`,
   globe: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>`,
+  external: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`,
   chev: `<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`
 };
 
+// データのマッピング
 document.getElementById('nameJp').textContent = CONFIG.nameJp;
 document.getElementById('nameEn').textContent = CONFIG.nameEn;
 document.getElementById('jobTitle').textContent = CONFIG.jobTitle;
 document.getElementById('company').textContent = CONFIG.company;
+document.getElementById('bio').textContent = CONFIG.bio;
+
 const sealInner = document.getElementById('sealInner');
 if(CONFIG.photoUrl){
   sealInner.innerHTML = `<img src="${CONFIG.photoUrl}" alt="${CONFIG.nameJp}">`;
@@ -331,10 +568,29 @@ if(CONFIG.photoUrl){
 }
 
 document.getElementById('actions').innerHTML = `
-  <a class="action-btn" href="tel:${CONFIG.phone.replace(/[^0-9+]/g,'')}">${icons.phone}電話</a>
-  <a class="action-btn" href="mailto:${CONFIG.email}">${icons.mail}メール</a>
-  <a class="action-btn outline" href="${CONFIG.website}" target="_blank" rel="noopener">${icons.globe}Web</a>
+  <a class="action-btn outline" href="${CONFIG.website}" target="_blank" rel="noopener">${icons.globe}ウェブサイト</a>
 `;
+
+document.getElementById('skillsContainer').innerHTML = CONFIG.skills.map(skill => `
+  <span class="skill-badge">${skill}</span>
+`).join('');
+
+// ワークスをインデックス付きで描写
+document.getElementById('worksList').innerHTML = CONFIG.works.map((w, index) => {
+  const thumbContent = w.img 
+    ? `<img src="${w.img}" alt="${w.title}">` 
+    : `<div class="work-thumb-fallback">${w.title.charAt(0)}</div>`;
+    
+  return `
+    <div class="work-item" onclick="openModal(${index})">
+      <div class="work-thumb">${thumbContent}</div>
+      <div class="work-info">
+        <h4 class="work-title">${w.title}</h4>
+        <p class="work-desc">${w.desc}</p>
+      </div>
+    </div>
+  `;
+}).join('');
 
 document.getElementById('snsList').innerHTML = CONFIG.sns.map(s => `
   <a class="sns-row" href="${s.url}" target="_blank" rel="noopener">
@@ -343,6 +599,42 @@ document.getElementById('snsList').innerHTML = CONFIG.sns.map(s => `
     ${icons.chev}
   </a>
 `).join('');
+
+// --- モーダル制御ロジック ---
+const overlay = document.getElementById('modalOverlay');
+const mTitle = document.getElementById('modalTitle');
+const mBody = document.getElementById('modalBody');
+const mFooter = document.getElementById('modalFooter');
+
+function openModal(index) {
+  const work = CONFIG.works[index];
+  mTitle.textContent = work.title;
+  
+  // 画像があれば詳細内にも表示
+  const bodyImg = work.img ? `<img src="${work.img}" alt="${work.title}">` : '';
+  mBody.innerHTML = bodyImg + `<p>${work.detail}</p>`;
+  
+  // プロジェクトURLがある場合のみフッターリンクを表示
+  if (work.url) {
+    mFooter.style.display = 'flex';
+    mFooter.innerHTML = `<a class="modal-link-btn" href="${work.url}" target="_blank" rel="noopener">プロジェクトサイトを見る ${icons.external}</a>`;
+  } else {
+    mFooter.style.display = 'none';
+  }
+  
+  overlay.classList.add('is-active');
+  document.body.classList.add('modal-open');
+}
+
+function closeModal() {
+  overlay.classList.remove('is-active');
+  document.body.classList.remove('modal-open');
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) closeModal();
+});
 </script>
 </body>
 </html>
