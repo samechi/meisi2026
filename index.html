@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -636,5 +636,275 @@ overlay.addEventListener('click', (e) => {
   if (e.target === overlay) closeModal();
 });
 </script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>デジタル名刺 - 山田太郎</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --pink: #FF3E8E;
+    --yellow: #FFD23F;
+    --blue: #3EC1FF;
+    --purple: #7B2FF7;
+    --ink: #1A1A2E;
+    --paper: #FFF9F0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @font-face {
+    font-family: 'system-rounded';
+    src: local('Hiragino Maru Gothic ProN'), local('Yu Gothic UI');
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(255,62,142,0.35), transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(62,193,255,0.3), transparent 45%),
+      radial-gradient(circle at 50% 90%, rgba(123,47,247,0.35), transparent 45%);
+    font-family: "Hiragino Maru Gothic ProN", "Yu Gothic UI", "Zen Maru Gothic", sans-serif;
+    padding: 32px 16px;
+  }
+
+  .stage {
+    perspective: 1200px;
+  }
+
+  .card {
+    position: relative;
+    width: 420px;
+    max-width: 90vw;
+    background: var(--paper);
+    border-radius: 28px;
+    padding: 36px 32px 28px;
+    box-shadow:
+      0 30px 60px rgba(0,0,0,0.45),
+      0 0 0 3px var(--ink);
+    transform: rotate(-1.2deg);
+    transition: transform 0.35s ease;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    transform: rotate(0deg) scale(1.02);
+  }
+
+  .confetti {
+    position: absolute;
+    border-radius: 50%;
+  }
+  .c1 { width: 60px; height: 60px; background: var(--yellow); top: -20px; right: -20px; }
+  .c2 { width: 26px; height: 26px; background: var(--blue); bottom: 40px; left: -13px; }
+  .c3 { width: 16px; height: 16px; background: var(--pink); top: 90px; right: 24px; }
+  .c4 { width: 34px; height: 34px; background: var(--purple); bottom: -10px; right: 60px; opacity: 0.85; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    background: var(--ink);
+    color: var(--yellow);
+    padding: 6px 14px;
+    border-radius: 999px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .name-block {
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .name {
+    font-size: 40px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.1;
+    display: inline-block;
+    position: relative;
+  }
+  .name::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    bottom: 4px;
+    height: 14px;
+    background: var(--yellow);
+    z-index: -1;
+    border-radius: 4px;
+    transform: skewX(-8deg);
+  }
+
+  .kana {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--purple);
+    letter-spacing: 0.15em;
+    margin-bottom: 4px;
+  }
+
+  .role {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--pink);
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 10px;
+    transform: rotate(-1deg);
+  }
+
+  .divider {
+    margin: 24px 0 16px;
+    height: 4px;
+    border-radius: 4px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--purple), var(--purple) 10px,
+      var(--blue) 10px, var(--blue) 20px
+    );
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hobbies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hobby {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: 999px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.15s ease;
+  }
+  .hobby:hover { transform: translateY(-3px) rotate(-2deg); }
+  .hobbies .hobby:nth-child(4n+1) { background: var(--yellow); }
+  .hobbies .hobby:nth-child(4n+2) { background: var(--blue); color: #fff; border-color: var(--blue);}
+  .hobbies .hobby:nth-child(4n+3) { background: var(--pink); color: #fff; border-color: var(--pink);}
+  .hobbies .hobby:nth-child(4n) { background: var(--purple); color: #fff; border-color: var(--purple);}
+
+  .links {
+    display: flex;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .link {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--ink);
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 10px 6px;
+    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+  }
+  .link:hover {
+    background: var(--ink);
+    color: var(--yellow);
+    transform: translateY(-2px);
+  }
+
+  .tag-note {
+    margin-top: 18px;
+    font-size: 11px;
+    color: #9992;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .tag-note b { color: var(--purple); }
+
+</style>
+</head>
+<body>
+
+  <div class="stage">
+    <div class="card">
+      <div class="confetti c1"></div>
+      <div class="confetti c2"></div>
+      <div class="confetti c3"></div>
+      <div class="confetti c4"></div>
+
+      <span class="eyebrow">★ DIGITAL CARD</span>
+
+      <div class="name-block">
+        <span class="kana">サメチ</span>
+        <span class="name">さめち</span>
+        <br>
+        <span class="role">読書好きなインドア専門学生</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-title">HOBBIES</div>
+      <div class="hobbies">
+        <span class="hobby">📚 読書（ほぼ毎日）</span>
+        <span class="hobby">🎬 映画鑑賞</span>
+        <span class="hobby">🎮 ゲーム（原神・スプラ3 など）</span>
+        <span class="hobby">📺 配信視聴（ツイキャス）</span>
+      </div>
+
+      <div class="section-title">MORE ABOUT ME</div>
+      <div class="hobbies">
+        <span class="hobby">🏸 バドミントン部</span>
+        <span class="hobby">🎙 放送局</span>
+        <span class="hobby">🍽 飲食店バイト</span>
+      </div>
+
+      <div class="links">
+        <a class="link" href="#" target="_blank" rel="noopener">📺 ツイキャス</a>
+        <a class="link" href="#" target="_blank" rel="noopener">🐦 X</a>
+      </div>
+
+      <div class="tag-note">信条：<b>責任を感じすぎない</b></div>
+    </div>
+  </div>
+
 </body>
 </html>
