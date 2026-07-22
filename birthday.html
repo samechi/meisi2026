@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Happy Birthday Card</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
+
+:root{
+  --bg-cream:#FFF7F0;
+  --pink:#FFB6C9;
+  --pink-deep:#FF8FA8;
+  --peach:#FFD8A8;
+  --lavender:#D9C2F0;
+  --mint:#C8F0D9;
+  --brown:#6B4A3F;
+  --gold:#F4B860;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{
+  margin:0;padding:0;
+  height:100vh; height:100dvh; width:100%;
+  background: radial-gradient(circle at 20% 15%, #FFE8EF 0%, var(--bg-cream) 45%, #FDEFE0 100%);
+  font-family:'Zen Maru Gothic', sans-serif;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  user-select:none; touch-action:manipulation;
+}
+.stage{
+  position:relative;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.floaters{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.floater{position:absolute;bottom:-10%;opacity:.6;animation: float linear infinite;will-change:transform;}
+@keyframes float{
+  0%{transform:translateY(0) translateX(0) rotate(0deg);}
+  100%{transform:translateY(-130vh) translateX(var(--dx,20px)) rotate(360deg);}
+}
+
+.hint{
+  position:absolute; top:9%; left:50%; transform:translateX(-50%);
+  font-family:'Yusei Magic',sans-serif;
+  color:var(--pink-deep); font-size:clamp(.9rem,4vw,1.05rem); letter-spacing:.04em;
+  animation: bob 2.2s ease-in-out infinite;
+  text-align:center; white-space:nowrap;
+  z-index: 10;
+}
+@keyframes bob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,-8px);}}
+
+.envelope-wrap{
+  position:relative;
+  width:min(78vw, 300px);
+  height:min(52vw, 200px);
+  cursor:pointer;
+  perspective:1400px;
+}
+
+.envelope-body{
+ position:absolute;inset:0;
+ background: linear-gradient(160deg,#FFD1DC,#FFB6C9);
+ border-radius:14px;
+ box-shadow:0 18px 40px rgba(255,143,168,.35), inset 0 0 0 2px rgba(255,255,255,.55);
+ transition: opacity .6s ease;
+}
+/* 開いた際に封筒自体の主張をやや抑え、カードを目立たせる */
+.envelope-wrap.open .envelope-body{
+ opacity: 0.85;
+}
+
+.envelope-flap{
+ position:absolute; top:0;left:0;width:100%;height:50%;
+ background: linear-gradient(160deg,#FFC1D1,#FF9EB5);
+ clip-path: polygon(0 0,100% 0,50% 100%);
+ transform-origin:top center;
+ transition: transform .9s cubic-bezier(.34,1.56,.64,1);
+ z-index:5;
+}
+.envelope-wrap.open .envelope-flap{transform: rotateX(180deg) translateY(-2px);}
+
+.seal{
+ position:absolute; top:32%;left:50%; transform:translate(-50%,-50%);
+ width:min(15vw,50px);height:min(15vw,50px);border-radius:50%;
+ background: radial-gradient(circle at 35% 30%, #FF9EB0, var(--pink-deep));
+ display:flex;align-items:center;justify-content:center;
+ box-shadow:0 4px 10px rgba(255,105,135,.5);
+ z-index:6;
+ animation: pulse 1.8s ease-in-out infinite;
+ transition: opacity .3s;
+}
+.seal svg{width:48%;height:48%;}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.08);}}
+.envelope-wrap.open .seal{animation:none; opacity:0;}
+
+.letter{
+ position:absolute; left:8px; right:8px; top:14px; bottom:8px;
+ background:#FFFDF9;
+ border-radius:10px;
+ box-shadow:0 8px 20px rgba(0,0,0,.08);
+ transition: transform .8s cubic-bezier(.22,1,.36,1), top .8s cubic-bezier(.22,1,.36,1), height .8s cubic-bezier(.22,1,.36,1), width .8s cubic-bezier(.22,1,.36,1), left .8s cubic-bezier(.22,1,.36,1), right .8s cubic-bezier(.22,1,.36,1);
+ z-index:3;
+ overflow:hidden;
+}
+
+/* 開いた際に画面中央（stageの中央）へぴったり移動して拡大 */
+.envelope-wrap.open .letter{
+ position: fixed;
+ top: 50%;
+ left: 50%;
+ width: min(84vw, 340px);
+ height: min(72vh, 460px);
+ transform: translate(-50%, -50%);
+ z-index:20;
+ box-shadow:0 20px 50px rgba(0,0,0,.2);
+}
+
+.letter-inner{
+ padding:26px 20px 18px; text-align:center; height:100%;
+ display:flex; flex-direction:column; align-items:center; justify-content:center;
+ gap:8px;
+ position:relative;
+}
+.card-face{
+ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+ width:100%;
+ animation: fadeIn .5s ease;
+}
+@keyframes fadeIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+
+.cake{width:clamp(52px,14vw,66px);height:clamp(52px,14vw,66px);}
+.title{
+ font-family:'Yusei Magic',sans-serif;
+ color:var(--pink-deep); font-size:clamp(1.2rem,5.5vw,1.5rem); margin:2px 0;
+}
+.name{
+ font-family:'Yusei Magic',sans-serif;
+ font-size:clamp(1.2rem,5.5vw,1.5rem);color:var(--brown);
+ border-bottom:2px dashed var(--peach); padding-bottom:2px;
+}
+.message{
+ font-size:clamp(.9rem,4vw,1rem);line-height:1.75;color:var(--brown);
+ max-width:250px;
+}
+.signature{
+ align-self:flex-end; margin-right:10px;
+ font-size:.9rem;color:#9B8072;
+}
+
+.dots{display:flex;gap:6px;margin-top:6px;}
+.dot{width:7px;height:7px;border-radius:50%;background:#F1D9C9;transition:background .3s;}
+.dot.active{background:var(--pink-deep);}
+
+.next-btn{
+ margin-top:8px;
+ font-family:'Yusei Magic',sans-serif;
+ font-size:.85rem; color:#fff; background:var(--pink-deep);
+ border:none; border-radius:20px; padding:8px 18px;
+ box-shadow:0 6px 14px rgba(255,143,168,.4);
+ cursor:pointer;
+}
+.next-btn:active{transform:scale(.96);}
+
+.nav-link{
+  position:absolute;
+  bottom:6%;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:30;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 16px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.95);
+  color:var(--pink-deep);
+  text-decoration:none;
+  font-weight:700;
+  box-shadow:0 10px 22px rgba(0,0,0,.12);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.nav-link:hover{transform:translateX(-50%) translateY(-2px);box-shadow:0 14px 28px rgba(0,0,0,.18);}
+
+@media (max-height:640px){
+  .cake{width:48px;height:48px;}
+  .message{font-size:.88rem;line-height:1.6;}
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="floaters" id="floaters"></div>
+  <div class="hint" id="hintText">🎀 封筒をタップして開けてね 🎀</div>
+
+  <div class="envelope-wrap" id="envelope">
+     <div class="letter">
+        <div class="letter-inner" id="letterInner"></div>
+     </div>
+     <div class="envelope-body"></div>
+     <div class="seal">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M12 21s-8-4.6-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 6.4-8 11-8 11z"/></svg>
+     </div>
+     <div class="envelope-flap"></div>
+  </div>
+  <a class="nav-link" href="index.html">&#x2190; デジタル名刺へ</a>
+</div>
+
+<script>
+const cards = [
+  {
+    name: "弟へ",
+    message: "お誕生日おめでとう。<br>これからも自分を信じて<br>進んでいくんだぞ。",
+    sign: "— 春香 より"
+  },
+  {
+    name: "お兄へ",
+    message: "お誕生日おめでとうだよ!!<br>これからも一番近くで<br>見守ってくれると嬉しいな!!!!!",
+    sign: "— 夏波 より"
+  }
+];
+
+const cakeSVG = `
+<svg class="cake" viewBox="0 0 64 64">
+  <path d="M30 6c-3 3-3 5 0 8 3-3 3-5 0-8z" fill="#FF8FA8"/>
+  <rect x="28" y="13" width="4" height="15" fill="#F4B860"/>
+  <rect x="10" y="28" width="44" height="10" fill="#FFB6C9"/>
+  <rect x="10" y="36" width="44" height="20" rx="5" fill="#FFD8A8"/>
+  <circle cx="18" cy="46" r="3" fill="#FFFDF9"/>
+  <circle cx="30" cy="46" r="3" fill="#FFFDF9"/>
+  <circle cx="42" cy="46" r="3" fill="#FFFDF9"/>
+</svg>`;
+
+let current = 0;
+const letterInner = document.getElementById('letterInner');
+const env = document.getElementById('envelope');
+const hint = document.getElementById('hintText');
+
+function renderCard(i){
+  const c = cards[i];
+  const isLast = i === cards.length - 1;
+  const dots = cards.map((_,idx)=>`<span class="dot ${idx===i?'active':''}"></span>`).join('');
+  letterInner.innerHTML = `
+    <div class="card-face">
+      ${cakeSVG}
+      <div class="title">Happy Birthday!</div>
+      <div class="name">${c.name}</div>
+      <div class="message">${c.message}</div>
+      <div class="signature">${c.sign}</div>
+      <div class="dots">${dots}</div>
+      ${isLast ? '' : '<button class="next-btn" id="nextBtn">次のメッセージへ ▶</button>'}
+    </div>
+  `;
+  if(!isLast){
+    document.getElementById('nextBtn').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      current++;
+      renderCard(current);
+    });
+  }
+}
+
+env.addEventListener('click', ()=>{
+  if(env.classList.contains('open')) return;
+  env.classList.add('open');
+  hint.style.transition='opacity .4s';
+  hint.style.opacity='0';
+  renderCard(current);
+  burstConfetti();
+});
+
+// 背景にふわふわ漂う飾り
+const floaters = document.getElementById('floaters');
+const shapes = ['💗','⭐','🎈','✨'];
+for(let i=0;i<16;i++){
+  const el = document.createElement('div');
+  el.className='floater';
+  el.textContent = shapes[Math.floor(Math.random()*shapes.length)];
+  el.style.left = Math.random()*100+'%';
+  el.style.fontSize = (12+Math.random()*16)+'px';
+  el.style.setProperty('--dx',(Math.random()*70-35)+'px');
+  el.style.animationDuration = (9+Math.random()*10)+'s';
+  el.style.animationDelay = (Math.random()*10)+'s';
+  floaters.appendChild(el);
+}
+
+function burstConfetti(){
+  const colors = ['#FFB6C9','#FFD8A8','#D9C2F0','#C8F0D9','#F4B860'];
+  for(let i=0;i<40;i++){
+    const c = document.createElement('div');
+    c.style.position='fixed';
+    c.style.left = (50 + (Math.random()*46-23)) + '%';
+    c.style.top = '40%';
+    const size = (6+Math.random()*6);
+    c.style.width = size+'px';
+    c.style.height = size+'px';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.borderRadius = Math.random()>0.5 ? '50%' : '2px';
+    c.style.zIndex = 50;
+    c.style.pointerEvents='none';
+    document.body.appendChild(c);
+    const dx = (Math.random()*300-150);
+    const dy = (200+Math.random()*300);
+    const rot = Math.random()*720-360;
+    const anim = c.animate([
+      {transform:'translate(0,0) rotate(0deg)', opacity:1},
+      {transform:`translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity:0}
+    ], {duration: 1500+Math.random()*900, easing:'cubic-bezier(.2,.6,.4,1)'});
+    anim.onfinish = ()=> c.remove();
+  }
+}
+</script>
+</body>
+</html>
